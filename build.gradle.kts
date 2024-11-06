@@ -26,6 +26,9 @@ dependencies {
 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	// https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations
+	implementation("io.swagger.core.v3:swagger-annotations:2.2.25")
+
 }
 
 tasks.withType<Test> {
