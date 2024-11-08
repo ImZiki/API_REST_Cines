@@ -2,6 +2,7 @@ package com.es.diecines.service;
 
 import com.es.diecines.controller.PeliculaController;
 import com.es.diecines.dto.PeliculaDTO;
+import com.es.diecines.error.BaseDeDatosException;
 import com.es.diecines.exceptions.NotFoundException;
 import com.es.diecines.model.Pelicula;
 import com.es.diecines.repository.PeliculaRepository;
@@ -27,9 +28,15 @@ public class PeliculaService {
         }
 
         // 2 obtenemos la Pelicula
-        Pelicula p = peliculaRepository
-                .findById(idL)
-                .orElse(null);
+        Pelicula p = null;
+        try {
+            p = peliculaRepository
+                    .findById(idL)
+                    .orElse(null);
+        } catch (Exception e) {
+            throw new BaseDeDatosException(idL+" erroneo");
+        }
+
 
         if(p == null) {
             throw new NotFoundException("id "+id+" no encontrado");

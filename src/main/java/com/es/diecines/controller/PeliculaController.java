@@ -1,6 +1,7 @@
 package com.es.diecines.controller;
 
 import com.es.diecines.dto.PeliculaDTO;
+import com.es.diecines.error.BaseDeDatosException;
 import com.es.diecines.error.ErrorGenerico;
 import com.es.diecines.service.PeliculaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,6 +88,12 @@ public class PeliculaController {
                     "localhost:8080/peliculas/"+id
             );
             return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        } catch (BaseDeDatosException e) {
+            ErrorGenerico error = new ErrorGenerico(
+                    e.getMessage(),
+                    "localhost:8080/peliculas/"+id
+            );
+            return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
