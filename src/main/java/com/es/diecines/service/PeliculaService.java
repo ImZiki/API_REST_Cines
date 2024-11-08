@@ -23,8 +23,7 @@ public class PeliculaService {
         try {
             idL = Long.parseLong(id);
         } catch (NumberFormatException e) {
-            e.printStackTrace();
-            return null;
+            throw new NumberFormatException("El formato del id es incorrecto");
         }
 
         // 2 obtenemos la Pelicula
