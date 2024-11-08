@@ -1,8 +1,12 @@
 package com.es.diecines.controller;
 
 import com.es.diecines.dto.PeliculaDTO;
+import com.es.diecines.error.ErrorGenerico;
 import com.es.diecines.service.PeliculaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,20 +58,24 @@ public class PeliculaController {
       * @return
      */
     @GetMapping("/{id}")
-    public PeliculaDTO getById(
+    public ResponseEntity<?> getById(
             @PathVariable String id
     ) {
         // 1 Comprobar que el id no viene vacío
-        if (id == null || id.isEmpty()) return null;
+        if (id == null || id.isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         // 2 Si no viene vacio, llamo al Service
         PeliculaDTO p = peliculaService.getById(id);
 
         // 3 Compruebo la validez de p para devolver una respuesta
         if(p == null) {
-            return null;
+            ResponseEntity<ErrorGenerico> respuesta = new ResponseEntity<>(new ErrorGenerico("Pelicula no encontrada", "localhost:8080/peliculas/{id}"),HttpStatus.NOT_FOUND);
+            return respuesta;
         } else {
-            return p;
+            ResponseEntity<PeliculaDTO> respuesta = new ResponseEntity<PeliculaDTO>(
+                    p, HttpStatus.OK
+            );
+            return respuesta;
         }
     }
 
