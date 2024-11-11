@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.es"
-version = "0.0.1-SNAPSHOT"
+version = "1.0"
 
 java {
 	toolchain {
@@ -22,19 +22,20 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
-	runtimeOnly("com.mysql:mysql-connector-j")
+	implementation("com.mysql:mysql-connector-j")
 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
-
-
-
-
-
 }
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+tasks {
+	bootJar {
+		enabled = false
+	}
+	bootWar {
+		enabled = true
+	}
 }
